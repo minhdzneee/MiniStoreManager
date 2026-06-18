@@ -41,7 +41,7 @@ dotnet --version
 Clone repository:
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/minhdzneee/MiniStoreManager.git
 cd MiniStoreManager
 ```
 
