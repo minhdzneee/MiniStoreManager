@@ -1,0 +1,73 @@
+@model DashboardViewModel
+@{
+    ViewData["Title"] = "Thống kê";
+}
+
+<div class="page-title-row">
+    <div>
+        <h1 class="h3 mb-1">Thống kê</h1>
+        <p class="text-muted mb-0">Tổng quan dữ liệu bán hàng và tồn kho.</p>
+    </div>
+    <a class="btn btn-primary" asp-controller="Orders" asp-action="Create">Tạo đơn hàng</a>
+</div>
+
+<div class="stat-grid mb-4">
+    <div class="stat-card">
+        <span>Tổng sản phẩm</span>
+        <strong>@Model.TotalProducts</strong>
+    </div>
+    <div class="stat-card">
+        <span>Tổng danh mục</span>
+        <strong>@Model.TotalCategories</strong>
+    </div>
+    <div class="stat-card">
+        <span>Tổng đơn hàng</span>
+        <strong>@Model.TotalOrders</strong>
+    </div>
+    <div class="stat-card">
+        <span>Tổng doanh thu</span>
+        <strong>@Model.TotalRevenue.ToString("N0") đ</strong>
+    </div>
+</div>
+
+<div class="page-title-row">
+    <div>
+        <h2 class="h5 mb-1">5 sản phẩm tồn kho thấp nhất</h2>
+        <p class="text-muted mb-0">Ưu tiên nhập thêm hàng cho các sản phẩm này.</p>
+    </div>
+</div>
+
+<div class="table-panel">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Sản phẩm</th>
+                    <th>Danh mục</th>
+                    <th>Giá bán</th>
+                    <th>Tồn kho</th>
+                    <th class="text-end">Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model.LowStockProducts)
+                {
+                    <tr>
+                        <td class="fw-semibold">@product.Name</td>
+                        <td>@product.Category?.Name</td>
+                        <td>@product.Price.ToString("N0") đ</td>
+                        <td>
+                            <span class="badge badge-stock @(product.Quantity <= 10 ? "text-bg-danger" : "text-bg-success")">@product.Quantity</span>
+                        </td>
+                        <td>
+                            <div class="action-group justify-content-end">
+                                <a class="btn btn-sm btn-outline-secondary" asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">Chi tiết</a>
+                                <a class="btn btn-sm btn-outline-primary" asp-controller="Products" asp-action="Edit" asp-route-id="@product.Id">Sửa</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,37 @@
+@model Category
+@{
+    ViewData["Title"] = "Xóa danh mục";
+}
+
+<div class="page-title-row">
+    <div>
+        <h1 class="h3 mb-1">Xóa danh mục</h1>
+        <p class="text-muted mb-0">Kiểm tra trước khi xóa khỏi hệ thống.</p>
+    </div>
+    <a class="btn btn-outline-secondary" asp-action="Index">Quay lại</a>
+</div>
+
+<div class="details-panel">
+    <div class="alert alert-warning">
+        Bạn có chắc muốn xóa danh mục <strong>@Model.Name</strong>?
+        @if (Model.Products.Any())
+        {
+            <span>Danh mục này đang có @Model.Products.Count sản phẩm nên hệ thống sẽ không cho xóa.</span>
+        }
+    </div>
+    <dl class="row mb-4">
+        <dt class="col-sm-3">Id</dt>
+        <dd class="col-sm-9">@Model.Id</dd>
+        <dt class="col-sm-3">Tên danh mục</dt>
+        <dd class="col-sm-9">@Model.Name</dd>
+        <dt class="col-sm-3">Mô tả</dt>
+        <dd class="col-sm-9">@Model.Description</dd>
+        <dt class="col-sm-3">Số sản phẩm</dt>
+        <dd class="col-sm-9">@Model.Products.Count</dd>
+    </dl>
+    <form asp-action="Delete" method="post" onsubmit="return confirm('Bạn chắc chắn muốn xóa danh mục này?');">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Xác nhận xóa</button>
+        <a class="btn btn-outline-secondary" asp-action="Index">Hủy</a>
+    </form>
+</div>

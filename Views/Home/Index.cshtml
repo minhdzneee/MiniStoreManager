@@ -1,0 +1,151 @@
+@model HomeDashboardViewModel
+@{
+    ViewData["Title"] = "Trang chủ";
+}
+
+<section class="hero-dashboard mb-4">
+    <div class="row align-items-center g-4">
+        <div class="col-lg-7">
+            <span class="eyebrow">Quản trị cửa hàng mini</span>
+            <h1 class="hero-title mb-3">MiniStore giúp theo dõi hàng hóa, đơn hàng và doanh thu trong một màn hình.</h1>
+            <p class="hero-copy mb-4">
+                Giao diện MVC đơn giản nhưng đủ nghiệp vụ: quản lý sản phẩm, danh mục, tạo đơn hàng,
+                tự tính tổng tiền và xem thống kê tồn kho.
+            </p>
+            <div class="d-flex flex-wrap gap-2">
+                <a class="btn btn-primary btn-lg" asp-controller="Orders" asp-action="Create">Tạo đơn hàng</a>
+                <a class="btn btn-light btn-lg" asp-controller="Products" asp-action="Index">Xem sản phẩm</a>
+                <a class="btn btn-outline-light btn-lg" asp-controller="Dashboard" asp-action="Index">Mở thống kê</a>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="hero-visual">
+                <div class="receipt-card">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="mini-label">Tổng quan</span>
+                        <span class="status-pill">Đang hoạt động</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span>Doanh thu</span>
+                        <strong>@Model.TotalRevenue.ToString("N0") đ</strong>
+                    </div>
+                    <div class="receipt-row">
+                        <span>Đơn hàng</span>
+                        <strong>@Model.TotalOrders</strong>
+                    </div>
+                    <div class="receipt-row">
+                        <span>Sản phẩm</span>
+                        <strong>@Model.TotalProducts</strong>
+                    </div>
+                </div>
+
+                <div class="product-showcase">
+                    @foreach (var product in Model.FeaturedProducts)
+                    {
+                        var imageUrl = string.IsNullOrWhiteSpace(product.ImageUrl) ? "/images/product-placeholder.svg" : product.ImageUrl;
+                        <a class="showcase-item" asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">
+                            <img src="@imageUrl" alt="@product.Name" onerror="this.src='/images/product-placeholder.svg'" />
+                            <span>@product.Name</span>
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="stat-grid mb-4">
+    <a class="stat-card stat-products" asp-controller="Products" asp-action="Index">
+        <span>Tổng sản phẩm</span>
+        <strong>@Model.TotalProducts</strong>
+    </a>
+    <a class="stat-card stat-categories" asp-controller="Categories" asp-action="Index">
+        <span>Tổng danh mục</span>
+        <strong>@Model.TotalCategories</strong>
+    </a>
+    <a class="stat-card stat-orders" asp-controller="Orders" asp-action="Index">
+        <span>Tổng đơn hàng</span>
+        <strong>@Model.TotalOrders</strong>
+    </a>
+    <a class="stat-card stat-revenue" asp-controller="Dashboard" asp-action="Index">
+        <span>Tổng doanh thu</span>
+        <strong>@Model.TotalRevenue.ToString("N0") đ</strong>
+    </a>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-6">
+        <section class="content-panel h-100">
+            <div class="panel-heading">
+                <div>
+                    <h2 class="h5 mb-1">Truy cập nhanh</h2>
+                    <p class="text-muted mb-0">Các thao tác thường dùng khi demo.</p>
+                </div>
+            </div>
+            <div class="quick-grid compact">
+                <a class="quick-card" asp-controller="Products" asp-action="Index">
+                    <span>Sản phẩm</span>
+                    <strong>Tìm kiếm, lọc và cập nhật kho</strong>
+                </a>
+                <a class="quick-card" asp-controller="Categories" asp-action="Index">
+                    <span>Danh mục</span>
+                    <strong>Tổ chức nhóm hàng</strong>
+                </a>
+                <a class="quick-card" asp-controller="Orders" asp-action="Create">
+                    <span>Bán hàng</span>
+                    <strong>Tạo đơn và trừ tồn kho</strong>
+                </a>
+                <a class="quick-card" asp-controller="Dashboard" asp-action="Index">
+                    <span>Báo cáo</span>
+                    <strong>Xem doanh thu và cảnh báo tồn</strong>
+                </a>
+            </div>
+        </section>
+    </div>
+    <div class="col-lg-3">
+        <section class="content-panel h-100">
+            <div class="panel-heading">
+                <div>
+                    <h2 class="h5 mb-1">Tồn kho thấp</h2>
+                    <p class="text-muted mb-0">Cần nhập thêm hàng.</p>
+                </div>
+            </div>
+            <div class="mini-list">
+                @foreach (var product in Model.LowStockProducts)
+                {
+                    var imageUrl = string.IsNullOrWhiteSpace(product.ImageUrl) ? "/images/product-placeholder.svg" : product.ImageUrl;
+                    <a class="mini-list-item" asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">
+                        <img src="@imageUrl" alt="@product.Name" onerror="this.src='/images/product-placeholder.svg'" />
+                        <span>
+                            <strong>@product.Name</strong>
+                            <small>@product.Category?.Name</small>
+                        </span>
+                        <b>@product.Quantity</b>
+                    </a>
+                }
+            </div>
+        </section>
+    </div>
+    <div class="col-lg-3">
+        <section class="content-panel h-100">
+            <div class="panel-heading">
+                <div>
+                    <h2 class="h5 mb-1">Đơn gần đây</h2>
+                    <p class="text-muted mb-0">Các giao dịch mới nhất.</p>
+                </div>
+            </div>
+            <div class="mini-list">
+                @foreach (var order in Model.RecentOrders)
+                {
+                    <a class="mini-list-item order-item" asp-controller="Orders" asp-action="Details" asp-route-id="@order.Id">
+                        <span>
+                            <strong>#@order.Id - @order.CustomerName</strong>
+                            <small>@order.OrderDate.ToString("dd/MM/yyyy HH:mm")</small>
+                        </span>
+                        <b>@order.TotalAmount.ToString("N0") đ</b>
+                    </a>
+                }
+            </div>
+        </section>
+    </div>
+</div>

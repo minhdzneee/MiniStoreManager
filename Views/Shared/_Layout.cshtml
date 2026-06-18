@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MiniStore</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="app-header">
+        <nav class="navbar navbar-expand-lg navbar-dark app-navbar">
+            <div class="container-xl">
+                <a class="navbar-brand brand-lockup" asp-controller="Home" asp-action="Index">
+                    <span class="brand-mark">MS</span>
+                    <span>
+                        <span class="brand-title">MiniStore</span>
+                        <small class="brand-subtitle">Manager</small>
+                    </span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Mở menu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="mainNavbar">
+                    <ul class="navbar-nav mx-lg-auto mb-2 mb-lg-0 nav-pills-soft">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Index">Trang chủ</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Products" asp-action="Index">Sản phẩm</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Categories" asp-action="Index">Danh mục</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Orders" asp-action="Index">Đơn hàng</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Dashboard" asp-action="Index">Thống kê</a>
+                        </li>
+                    </ul>
+                    <a class="btn btn-warning btn-sm fw-semibold px-3" asp-controller="Orders" asp-action="Create">Tạo đơn hàng</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container-xl app-main">
+        <partial name="_Alerts" />
+        @RenderBody()
+    </main>
+
+    <footer class="app-footer">
+        <div class="container-xl d-flex flex-wrap justify-content-between gap-2">
+            <span>&copy; 2026 MiniStoreManager</span>
+            <span>ASP.NET Core MVC + SQLite + Bootstrap 5</span>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

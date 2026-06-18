@@ -1,0 +1,33 @@
+@model Order
+@{
+    ViewData["Title"] = "Xóa đơn hàng";
+}
+
+<div class="page-title-row">
+    <div>
+        <h1 class="h3 mb-1">Xóa đơn hàng #@Model.Id</h1>
+        <p class="text-muted mb-0">Hệ thống sẽ hoàn lại tồn kho của các sản phẩm trong đơn.</p>
+    </div>
+    <a class="btn btn-outline-secondary" asp-action="Index">Quay lại</a>
+</div>
+
+<div class="details-panel">
+    <div class="alert alert-warning">
+        Bạn có chắc muốn xóa đơn hàng của <strong>@Model.CustomerName</strong>?
+    </div>
+    <dl class="row">
+        <dt class="col-sm-3">Mã đơn</dt>
+        <dd class="col-sm-9">#@Model.Id</dd>
+        <dt class="col-sm-3">Khách hàng</dt>
+        <dd class="col-sm-9">@Model.CustomerName</dd>
+        <dt class="col-sm-3">Ngày đặt</dt>
+        <dd class="col-sm-9">@Model.OrderDate.ToString("dd/MM/yyyy HH:mm")</dd>
+        <dt class="col-sm-3">Tổng tiền</dt>
+        <dd class="col-sm-9">@Model.TotalAmount.ToString("N0") đ</dd>
+    </dl>
+    <form asp-action="Delete" method="post" onsubmit="return confirm('Bạn chắc chắn muốn xóa đơn hàng này?');">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Xác nhận xóa</button>
+        <a class="btn btn-outline-secondary" asp-action="Index">Hủy</a>
+    </form>
+</div>

@@ -1,0 +1,43 @@
+@model Product
+@{
+    ViewData["Title"] = "Xóa sản phẩm";
+    var imageUrl = string.IsNullOrWhiteSpace(Model.ImageUrl) ? "/images/product-placeholder.svg" : Model.ImageUrl;
+}
+
+<div class="page-title-row">
+    <div>
+        <h1 class="h3 mb-1">Xóa sản phẩm</h1>
+        <p class="text-muted mb-0">Xác nhận trước khi xóa khỏi kho.</p>
+    </div>
+    <a class="btn btn-outline-secondary" asp-action="Index">Quay lại</a>
+</div>
+
+<div class="details-panel">
+    <div class="alert alert-warning">
+        Bạn có chắc muốn xóa sản phẩm <strong>@Model.Name</strong>?
+    </div>
+    <div class="row g-4">
+        <div class="col-md-3">
+            <img class="product-photo" src="@imageUrl" alt="@Model.Name" onerror="this.src='/images/product-placeholder.svg'" />
+        </div>
+        <div class="col-md-9">
+            <dl class="row">
+                <dt class="col-sm-4">Id</dt>
+                <dd class="col-sm-8">@Model.Id</dd>
+                <dt class="col-sm-4">Tên sản phẩm</dt>
+                <dd class="col-sm-8">@Model.Name</dd>
+                <dt class="col-sm-4">Danh mục</dt>
+                <dd class="col-sm-8">@Model.Category?.Name</dd>
+                <dt class="col-sm-4">Giá bán</dt>
+                <dd class="col-sm-8">@Model.Price.ToString("N0") đ</dd>
+                <dt class="col-sm-4">Tồn kho</dt>
+                <dd class="col-sm-8">@Model.Quantity</dd>
+            </dl>
+        </div>
+    </div>
+    <form asp-action="Delete" method="post" class="mt-3" onsubmit="return confirm('Bạn chắc chắn muốn xóa sản phẩm này?');">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Xác nhận xóa</button>
+        <a class="btn btn-outline-secondary" asp-action="Index">Hủy</a>
+    </form>
+</div>
